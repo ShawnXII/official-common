@@ -1,6 +1,7 @@
 package com.official.core.base.repository.support;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -182,8 +182,8 @@ public class SimpleBaseRepository<M extends Entity<ID>, ID extends java.io.Seria
 	 */
 	@Transactional
 	@Override
-	public void delete(final ID[] ids) {
-		if (ArrayUtils.isEmpty(ids)) {
+	public void delete(final Collection<ID> ids) {
+		if (ids==null||ids.isEmpty()) {
 			return;
 		}
 		List<M> models = new ArrayList<M>();

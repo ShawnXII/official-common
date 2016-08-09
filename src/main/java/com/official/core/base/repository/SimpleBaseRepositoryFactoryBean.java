@@ -1,6 +1,7 @@
 package com.official.core.base.repository;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.NoRepositoryBean;
 
 import com.official.core.base.search.support.Searchable;
 
@@ -20,13 +22,14 @@ import com.official.core.base.search.support.Searchable;
  * @param <M>
  * @param <ID>
  */
+@NoRepositoryBean
 public interface SimpleBaseRepositoryFactoryBean<M, ID extends Serializable>
 		extends CrudRepository<M, ID>, Serializable {
 	/**
 	 * 根据主键删除
 	 * @param ids
 	 */
-	public void delete(ID[] ids);
+	public void delete(Collection<ID> ids);
 	
 	/*
 	 * (non-Javadoc)
