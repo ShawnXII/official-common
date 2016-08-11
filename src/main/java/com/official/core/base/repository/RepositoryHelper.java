@@ -12,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.JpaEntityInformationSupport;
-import org.springframework.orm.jpa.SharedEntityManagerCreator;
 import org.springframework.util.Assert;
 
 import com.official.core.base.repository.callback.SearchCallback;
@@ -25,7 +24,8 @@ import com.official.core.base.search.support.Searchable;
  *
  */
 public class RepositoryHelper {
-
+	
+	private EntityManagerFactory entityManagerFactory;
 	private static EntityManager entityManager;
 	private Class<?> entityClass;
 	private boolean enableQueryCache = true;
@@ -53,20 +53,12 @@ public class RepositoryHelper {
 	 * 
 	 * @param entityClass
 	 */
-	public RepositoryHelper(Class<?> entityClass) {
+	public RepositoryHelper(Class<?> entityClass,EntityManagerFactory entityManagerFactory) {
+		Assert.notNull(entityClass, "The given entityClass must not be null!");
 		this.entityClass = entityClass;
-		/*EnableQueryCache enableQueryCacheAnnotation = AnnotationUtils.findAnnotation(entityClass,
-				EnableQueryCache.class);*/
-		boolean enableQueryCache = true;
-		/*if (enableQueryCacheAnnotation != null) {
-			enableQueryCache = enableQueryCacheAnnotation.value();
-		}*/
-		this.enableQueryCache = enableQueryCache;
-	}
-
-	public static void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
-		entityManager = SharedEntityManagerCreator.createSharedEntityManager(entityManagerFactory,
-				entityManagerFactory.getProperties());
+		this.enableQueryCache = true;
+		this.entityManagerFactory=entityManagerFactory;
+		entityManager=this.entityManagerFactory.createEntityManager();
 	}
 
 	public static EntityManager getEntityManager() {
