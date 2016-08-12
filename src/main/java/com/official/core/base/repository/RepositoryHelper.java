@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.JpaEntityInformationSupport;
+import org.springframework.orm.jpa.SharedEntityManagerCreator;
 import org.springframework.util.Assert;
 
 import com.official.core.base.repository.callback.SearchCallback;
@@ -25,7 +26,6 @@ import com.official.core.base.search.support.Searchable;
  */
 public class RepositoryHelper {
 	
-	private EntityManagerFactory entityManagerFactory;
 	private static EntityManager entityManager;
 	private Class<?> entityClass;
 	private boolean enableQueryCache = true;
@@ -53,12 +53,15 @@ public class RepositoryHelper {
 	 * 
 	 * @param entityClass
 	 */
-	public RepositoryHelper(Class<?> entityClass,EntityManagerFactory entityManagerFactory) {
+	public RepositoryHelper(Class<?> entityClass) {
 		Assert.notNull(entityClass, "The given entityClass must not be null!");
 		this.entityClass = entityClass;
 		this.enableQueryCache = true;
-		this.entityManagerFactory=entityManagerFactory;
-		entityManager=this.entityManagerFactory.createEntityManager();
+	}
+	
+	public static void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
+		entityManager = SharedEntityManagerCreator.createSharedEntityManager(entityManagerFactory,
+				entityManagerFactory.getProperties());
 	}
 
 	public static EntityManager getEntityManager() {

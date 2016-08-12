@@ -12,7 +12,7 @@
 		<logback.version>1.0.13</logback.version>
 	</properties>
 	<dependencies>
-	
+
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
@@ -38,7 +38,7 @@
 			<artifactId>spring-data-jpa</artifactId>
 			<version>${springdata.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava-collections</artifactId>
@@ -70,13 +70,13 @@
 			<version>1.1.41</version>
 		</dependency>
 		<!-- Logback 日志组件 -->
-		
+
 		<!-- https://mvnrepository.com/artifact/com.belerweb/pinyin4j -->
 		<dependency>
-		    <groupId>com.belerweb</groupId>
-		    <artifactId>pinyin4j</artifactId>
-		    <version>2.5.1</version>
-		</dependency>		
+			<groupId>com.belerweb</groupId>
+			<artifactId>pinyin4j</artifactId>
+			<version>2.5.1</version>
+		</dependency>
 		<!-- EclipseLink JPA -->
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
@@ -96,4 +96,31 @@
 			</exclusions>
 		</dependency>
 	</dependencies>
+	<build>
+		<plugins>
+			<!-- 指定jdk编译版本 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>
