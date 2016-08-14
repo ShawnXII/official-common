@@ -182,14 +182,12 @@ public class SimpleBaseRepository<M extends Entity<ID>, ID extends java.io.Seria
 	@SuppressWarnings("unchecked")
 	@Override
 	public M save(M entity) {
-		if (entity.isNew()) {
+		Long eid=Commutil.null2Long(entity.getId(), -1);
+		System.out.println("状态:"+eid+";"+(entity.isNew()||eid<1));
+		logger.info("状态:"+(entity.isNew()||eid<1));
+		if (entity.isNew()||eid<1) {
 			Long id = Commutil.generateId();
-			Object idType = entity.getId();
-			if (idType instanceof Long) {
-				entity.setId((ID) id);
-			} else {
-				throw new IllegalArgumentException("Unsupported ID type,ID Type:[" + idType.getClass() + "]");
-			}
+			entity.setId((ID) id);
 			if (logger.isDebugEnabled()) {
 				logger.debug("new data,entity Generate id:[{}],entity:[{}]", id, entity);
 			}

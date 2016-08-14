@@ -1,6 +1,7 @@
 package com.official.core.util;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -54,6 +55,8 @@ public final class Commutil {
 	public static final int PINYIN_TRANSFORMATION_FIRST_ONE_CAPITAL = 6;
 
 	private static IdGenerate idGenerate = null;
+	
+	private static IdGenerate randomId=null;
 
 	private Commutil() {
 		super();
@@ -373,6 +376,25 @@ public final class Commutil {
 			}
 		}
 		return idGenerate.generateId();
+	}
+	/**
+	 * 生成15位随机数
+	 * @return
+	 */
+	public static Long randomId(){
+		if (randomId  == null) {
+			synchronized (IdGenerate.class) {
+				if (randomId == null) {
+					randomId = new IdGenerate(4);
+				}
+			}
+		}
+		return randomId.generateId();
+	}
+	public static synchronized String getSalt(){
+		String uuid=UUID.randomUUID().toString();
+		uuid= Md5Encrypt.md5(uuid.replace("-", "")).toUpperCase();
+		return uuid;
 	}
 	/**
 	 * 获取中文拼音
