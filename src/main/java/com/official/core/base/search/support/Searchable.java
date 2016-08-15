@@ -22,6 +22,7 @@ public abstract class Searchable implements SearchableInterface{
 	private static final long serialVersionUID = 5865849937044814004L;
 	
 	protected final Log logger = LogFactory.getLog(getClass());
+	
 	/**
 	 * 创建一个新的查询
 	 * 
